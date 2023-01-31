@@ -46,7 +46,10 @@ class WeightedLoadBalancer constructor(
 
     private fun getNext(): WeightedNode {
         carry++
-        if (carry == nodesWithCounters.size) carry = 0
+
+        if (carry == nodesWithCounters.size) {
+            carry = 0
+        }
 
         val nodeWithCounter = nodesWithCounters[carry]
 
@@ -86,7 +89,7 @@ class WeightedLoadBalancer constructor(
 
         fun isRunOut(): Boolean = counter == 0
 
-        fun reset(): Unit {
+        fun reset() {
             counter = node.weight
         }
 

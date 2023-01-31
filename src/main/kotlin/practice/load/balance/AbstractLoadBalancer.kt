@@ -1,5 +1,6 @@
 package practice.load.balance
 
+import java.util.Collections
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 abstract class AbstractLoadBalancer<T : Node>(
@@ -9,11 +10,11 @@ abstract class AbstractLoadBalancer<T : Node>(
     protected val nodes: MutableList<T> = ArrayList(nodeList)
 
     private val readWriteLock = ReentrantReadWriteLock()
+    private val readLock: ReentrantReadWriteLock.ReadLock = readWriteLock.readLock()
     protected val writeLock: ReentrantReadWriteLock.WriteLock = readWriteLock.writeLock()
-    protected val readLock: ReentrantReadWriteLock.ReadLock = readWriteLock.readLock()
 
     init {
-        require(nodes.isNotEmpty()) { " Load balancer should be constructed with at least 1 node" }
+        require(nodes.isNotEmpty()) { "Load balancer should be constructed with at least 1 node" }
     }
 
     override fun register(node: T): Boolean {
@@ -37,7 +38,7 @@ abstract class AbstractLoadBalancer<T : Node>(
     override fun getNodes(): List<T> {
         readLock.lock()
         try {
-            return nodes.toList()
+            return Collections.unmodifiableList(nodes)
         } finally {
             readLock.unlock()
         }
