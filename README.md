@@ -1,5 +1,13 @@
 # Load balancers
 
+A simple load balancer web application. Can be started with provided node list which can be modified by calling corresponding API endpoints.
+The main function of load balancer is to return a node according to its strategy.
+___
+### Stack:
+* DI: **Koin**
+* Server: **Ktor**
+* Config: **Hoplite**
+___
 Project include three basic thread-safe load balancer implementations:
 
 * `RANDOM` - just return randomly chosen node
@@ -13,6 +21,15 @@ will be called `Wn` times, i.e. according to its weight.
 Load balancers allow adding and removing nodes. In order to change a node`s weight, 
 a client should first remove, then add the same node with a new weight value.
 
-> **_NOTE:_** Carefully fork or copy, because it is still necessary to test and review these implementations.
+### Instructions
+Build and run application by command:
+~~~~
+./gradlew clean build run
+~~~~
+Make requests such as:
+~~~~
+curl --location --request GET 'localhost:8080/node'
+~~~~
+
 
 
