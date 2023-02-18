@@ -1,9 +1,9 @@
-package practice.load.balance
+package practice.load.balancer
 
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 class WeightedLoadBalancer constructor(
-    nodeList: List<WeightedNode>,
+    nodeList: List<WeightedNode> = emptyList(),
 ) : LoadBalancer<WeightedNode> {
 
     private val nodesWithCounters: MutableList<NodeWithCounter> =
@@ -79,7 +79,7 @@ class WeightedLoadBalancer constructor(
         }
     }
 
-    override fun getStrategy(): String = "WEIGHTED"
+    override fun getStrategy(): LoadBalancerStrategy = LoadBalancerStrategy.WEIGHTED
 
     private data class NodeWithCounter(
         val node: WeightedNode,

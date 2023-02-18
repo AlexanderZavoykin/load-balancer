@@ -1,4 +1,4 @@
-package practice.load.balance
+package practice.load.balancer
 
 interface Node {
     val host: String

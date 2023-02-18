@@ -1,4 +1,4 @@
-package practice.load.balance
+package practice.load.balancer
 
 open class SimpleNode(
     override val host: String,

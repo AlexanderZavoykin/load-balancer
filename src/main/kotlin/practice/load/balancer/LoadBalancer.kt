@@ -1,4 +1,4 @@
-package practice.load.balance
+package practice.load.balancer
 
 interface LoadBalancer<T : Node> {
 
@@ -34,10 +34,10 @@ interface LoadBalancer<T : Node> {
     fun getNodes(): List<T>
 
     /**
-     * Get name of strategy used by this load balancer.
+     * Get strategy used by this load balancer.
      *
-     * @return strategy name.
+     * @return load balancer strategy.
      */
-    fun getStrategy(): String
+    fun getStrategy(): LoadBalancerStrategy
 
 }

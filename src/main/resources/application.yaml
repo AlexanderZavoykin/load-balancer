@@ -1,0 +1,4 @@
+port: 8080
+nodes: localhost:8081,localhost:8082
+balancer-strategy: ROUND_ROBIN
+

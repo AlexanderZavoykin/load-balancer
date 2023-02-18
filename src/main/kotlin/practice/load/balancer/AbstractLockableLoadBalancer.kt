@@ -1,26 +1,26 @@
-package practice.load.balance
+package practice.load.balancer
 
-import java.util.Collections
+import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
-abstract class AbstractLoadBalancer<T : Node>(
-    nodeList: List<T>,
+abstract class AbstractLockableLoadBalancer<T : Node>(
+    nodeList: List<T> = emptyList(),
 ) : LoadBalancer<T> {
 
-    protected val nodes: MutableList<T> = ArrayList(nodeList)
+    protected val nodeList: MutableList<T> = ArrayList(nodeList)
 
     private val readWriteLock = ReentrantReadWriteLock()
     private val readLock: ReentrantReadWriteLock.ReadLock = readWriteLock.readLock()
     protected val writeLock: ReentrantReadWriteLock.WriteLock = readWriteLock.writeLock()
 
     init {
-        require(nodes.isNotEmpty()) { "Load balancer should be constructed with at least 1 node" }
+        require(this.nodeList.isNotEmpty()) { "Load balancer should be constructed with at least 1 node" }
     }
 
     override fun register(node: T): Boolean {
         writeLock.lock()
         try {
-            return nodes.add(node)
+            return nodeList.add(node)
         } finally {
             writeLock.unlock()
         }
@@ -29,7 +29,7 @@ abstract class AbstractLoadBalancer<T : Node>(
     override fun unregister(node: T): Boolean {
         writeLock.lock()
         try {
-            return nodes.remove(node)
+            return nodeList.remove(node)
         } finally {
             writeLock.unlock()
         }
@@ -38,7 +38,7 @@ abstract class AbstractLoadBalancer<T : Node>(
     override fun getNodes(): List<T> {
         readLock.lock()
         try {
-            return Collections.unmodifiableList(nodes)
+            return Collections.unmodifiableList(nodeList)
         } finally {
             readLock.unlock()
         }

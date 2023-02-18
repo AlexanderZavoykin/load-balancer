@@ -1,4 +1,4 @@
-package practice.load.balance
+package practice.load.balancer
 
 class WeightedNode(
     override val host: String,
